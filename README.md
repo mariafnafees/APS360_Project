@@ -22,3 +22,5 @@ For details on data preprocessing, please refer to the documentation in the foll
 ### 2. Baseline Model
 For details on the baseline model, please refer to the documentation in the following folder:  
 [APS360_Project/Baseline](https://github.com/mariafnafees/APS360_Project/tree/main/Baseline)
+
+### 3. Quick, Draw! Mock Application
