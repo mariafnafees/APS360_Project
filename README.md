@@ -47,3 +47,5 @@ User-friendly flask application, where user draws a sketch and model guesses the
   <source src="https://github.com/mariafnafees/APS360_Project/tree/main/other/demo.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
+
+![Demo](demo.gif)
