@@ -23,8 +23,12 @@ For details on data preprocessing, please refer to the documentation in the foll
 For details on the baseline model, please refer to the documentation in the following folder:  
 [APS360_Project/Baseline](https://github.com/mariafnafees/APS360_Project/tree/main/Baseline)
 
-### 3. Quick, Draw! Test Application
-User-friendly application, prompting the user with a random category and using the developed model to predict the category of the drawing.
+### 3. Primary Model
+We used AlexNet in our primary model. For details on the primary model, please refer to the documentation in the following folder: 
+[APS360_Project/Primary Models](https://github.com/mariafnafees/APS360_Project/tree/main/Primary%20Models)
+
+### 4. Final Application
+User-friendly flask application, where user draws a sketch and model guesses the sketch from nine categories. For details on the final app, please refer to the documentation in the following folder: [APS360_Project/Sketch n Guess](https://github.com/mariafnafees/APS360_Project/tree/main/Sketch%20n%20Guess)
 
 #### List of Categories:
 - Apple 🍎
@@ -36,3 +40,10 @@ User-friendly application, prompting the user with a random category and using t
 - House 🏠
 - Pencil ✏️
 - Pizza 🍕
+
+#### Demo of Application:
+
+<video width="320" height="240" controls>
+  <source src="https://github.com/mariafnafees/APS360_Project/tree/main/other/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
