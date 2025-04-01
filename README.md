@@ -30,6 +30,15 @@ We used AlexNet in our primary model. For details on the primary model, please r
 ### 4. Final Application
 User-friendly flask application, where user draws a sketch and model guesses the sketch from nine categories. For details on the final app, please refer to the documentation in the following folder: [APS360_Project/Sketch n Guess](https://github.com/mariafnafees/APS360_Project/tree/main/Sketch%20n%20Guess)
 
+#### Demo of Application:
+
+<video width="320" height="240" controls>
+  <source src="https://github.com/mariafnafees/APS360_Project/tree/main/other/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+![Demo](other/demo.gif)
+
 #### List of Categories:
 - Apple 🍎
 - Bee 🐝
@@ -40,12 +49,3 @@ User-friendly flask application, where user draws a sketch and model guesses the
 - House 🏠
 - Pencil ✏️
 - Pizza 🍕
-
-#### Demo of Application:
-
-<video width="320" height="240" controls>
-  <source src="https://github.com/mariafnafees/APS360_Project/tree/main/other/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-![Demo](other/demo.gif)
