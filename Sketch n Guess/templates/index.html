@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sketch n’ Guess!</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #b3e5fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .main {
+      display: flex;
+      background-color: #e1f5fe;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      max-width: 850px;
+      width: 100%;
+    }
+
+    .left {
+      flex: 1;
+      padding-right: 30px;
+    }
+
+    .right {
+      flex: 1;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    canvas {
+      background-color: #fff;
+      border: 2px solid #aaa;
+      border-radius: 8px;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 25px;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .examples {
+      display: flex;
+      gap: 50px;
+      margin: 15px 50px;
+    }
+
+    .examples img {
+      width: 60px;
+      height: 60px;
+      border-radius: 0px;
+      object-fit: cover;
+      border: 0px solid #ccc;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      font-size: 20px;
+    }
+
+    ul li {
+      line-height: 1.8;
+    }
+
+    h2 {
+      margin-bottom: 0px;
+      font-size: 30px;
+      font-weight: lighter;
+      font-style: italic;
+    }
+
+    #predictionResult {
+      font-weight: bold;
+      font-size: 30px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+      margin-right: 200px;
+    }
+
+    .clear-button {
+      background-color: #e53935;
+    }
+
+    .clear-button:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <div class="left">
+      <h1>Sketch n’ Guess!</h1>
+      <p>The game where you sketch it, and we guess it!</p>
+      <p>Our trained Neural Network will guess your drawing based on 9 categories.</p>
+
+      <canvas id="drawingCanvas" width="224" height="224"></canvas>
+      <div class="button-group">
+        <button id="predictButton">Predict!</button>
+        <button id="clearButton" class="clear-button">Clear</button>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="examples">
+        <img src="{{ url_for('static', filename='images/apple.webp') }}" alt="apple" />
+        <img src="{{ url_for('static', filename='images/eyeglasses.webp') }}" alt="eyeglasses" />
+        <img src="{{ url_for('static', filename='images/pizza.png') }}" alt="pizza" />
+      </div>
+
+      <style>
+        ul {
+          display: grid;
+          grid-template-columns: 1fr 1fr; 
+          gap: 5px;
+          padding-left: 50px;
+        }
+        li {
+          list-style-type: none; 
+        }
+      </style>
+    </head>
+    <body>
+    
+      <p><strong>Choose a sketch from one of <u>9 categories</u>:</strong></p>
+      <ul>
+        <li>Apple</li>
+        <li>Bee</li>
+        <li>Cat</li>
+        <li>Eyeglasses</li>
+        <li>Fish</li>
+        <li>Flower</li>
+        <li>House</li>
+        <li>Pencil</li>
+        <li>Pizza</li>
+      </ul>
+
+      <h2>Prediction...</h2>
+      <p id="predictionResult">none</p>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("drawingCanvas");
+    const ctx = canvas.getContext("2d");
+    let isDrawing = false;
+
+    canvas.addEventListener("mousedown", (e) => {
+      isDrawing = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+      if (isDrawing) {
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        ctx.stroke();
+      }
+    });
+
+    canvas.addEventListener("mouseup", () => {
+      isDrawing = false;
+    });
+
+    document.getElementById("predictButton").addEventListener("click", () => {
+      const tempCanvas = document.createElement("canvas");
+      tempCanvas.width = canvas.width;
+      tempCanvas.height = canvas.height;
+      const tempCtx = tempCanvas.getContext("2d");
+
+      // white background
+      tempCtx.fillStyle = "white";
+      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.drawImage(canvas, 0, 0);
+
+      const imageData = tempCanvas.toDataURL("image/png");
+
+      fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ drawing: imageData })
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById("predictionResult").innerText = data.prediction;
+        })
+        .catch((err) => console.error("Error:", err));
+    });
+
+    document.getElementById("clearButton").addEventListener("click", () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear drawing
+      document.getElementById("predictionResult").innerText = "none"; // Reset prediction
+    });
+  </script>
+</body>
+</html>
