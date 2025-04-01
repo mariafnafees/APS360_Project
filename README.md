@@ -48,4 +48,4 @@ User-friendly flask application, where user draws a sketch and model guesses the
   Your browser does not support the video tag.
 </video>
 
-![Demo](demo.gif)
+![Demo](other/demo.gif)
